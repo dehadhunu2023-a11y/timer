@@ -3,36 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern IST Digital Clock</title>
+    <title>Water Drop IST Digital Clock</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Colors */
-            --primary-500: #00A99D;
-            --primary-700: #00847B;
-            --primary-100: #E0F7F5;
-            --text-primary: #111827;
-            --text-secondary: #6B7280;
-            --surface: #FFFFFF;
-            --page-bg: #F8FAFC;
-            --border: #E5E7EB;
-            --success: #10B981;
-            --warning: #F59E0B;
-            
-            /* Spacing */
-            --space-xs: 8px;
-            --space-sm: 16px;
-            --space-md: 24px;
-            --space-lg: 32px;
-            --space-xl: 48px;
-            --space-xxl: 64px;
-            
-            /* Radius */
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 24px;
+            /* Water drop colors */
+            --deep-ocean: #02091A;
+            --midnight-blue: #0B204D;
+            --luminous-cyan: #61FFFF;
+            --cyan-glow: #ABFFFF;
+            --surface-clear: rgba(255, 255, 255, 0.15);
+            --surface-highlight: rgba(255, 255, 255, 0.4);
+            --bubble-glow: rgba(255, 255, 255, 0.7);
+            --info-color: #89DDFF;
         }
 
         * {
@@ -42,280 +27,301 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, #F0F9FF 0%, #E0F7FA 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, var(--midnight-blue), var(--deep-ocean));
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: var(--space-sm);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating particles (bubbles) */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--bubble-glow);
+            opacity: 0;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
         }
 
         .container {
-            max-width: 768px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .clock-card {
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(17, 24, 39, 0.06);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .clock-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05), 0 12px 32px rgba(17, 24, 39, 0.08);
-        }
-
-        .clock-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-500), var(--success));
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-        }
-
-        .time-display {
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(80px, 12vw, 128px);
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
-            line-height: 1.0;
-            margin-bottom: var(--space-lg);
+            max-width: 1000px;
+            width: 100vw;
+            height: 45vw;
+            max-height: 560px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--space-sm);
+            padding: 8vw 12vw;
+            position: relative;
+            z-index: 2;
+        }
+
+        .water-drop-clock {
+            width: 100%;
+            height: 100%;
+            background: var(--surface-clear);
+            backdrop-filter: blur(40px);
+            border: 2px solid transparent;
+            border-top-color: var(--surface-highlight);
+            border-left-color: var(--surface-highlight);
+            border-radius: 45% 55% 60% 40% / 50% 42% 58% 50%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            animation: dropMorph 20s ease-in-out infinite;
+        }
+
+        @keyframes dropMorph {
+            0%, 100% {
+                border-radius: 45% 55% 60% 40% / 50% 42% 58% 50%;
+            }
+            25% {
+                border-radius: 48% 52% 55% 45% / 52% 48% 52% 48%;
+            }
+            50% {
+                border-radius: 50% 50% 65% 35% / 48% 52% 48% 52%;
+            }
+            75% {
+                border-radius: 42% 58% 52% 48% / 54% 46% 54% 46%;
+            }
+        }
+
+        .water-drop-clock:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(-5deg);
+        }
+
+        /* Ripple effect */
+        .ripple {
+            position: absolute;
+            border: 2px solid var(--luminous-cyan);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: rippleEffect 0.8s ease-out;
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.8;
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
+        }
+
+        .time-display {
+            font-size: 18vw;
+            font-weight: 700;
+            color: var(--luminous-cyan);
+            letter-spacing: -0.02em;
+            line-height: 1.0;
+            margin-bottom: 2vw;
+            text-shadow: 0 0 12px rgba(97, 255, 255, 0.4), 0 0 32px rgba(97, 255, 255, 0.2);
             position: relative;
         }
 
         .time-container {
             display: flex;
             align-items: baseline;
-            gap: var(--space-sm);
+            justify-content: center;
+            gap: 1vw;
         }
 
         .time-digit {
-            position: relative;
-            min-width: 0;
             display: inline-block;
-            transition: all 0.3s ease-in-out;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            min-width: 0;
+            position: relative;
         }
 
-        .time-digit.tick {
-            animation: digitBounce 0.6s ease-in-out;
+        .time-digit.flip {
+            animation: digitFlip 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        @keyframes digitBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+        @keyframes digitFlip {
+            0% {
+                transform: rotateX(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: rotateX(90deg);
+                opacity: 0.5;
+            }
+            100% {
+                transform: rotateX(0deg);
+                opacity: 1;
+            }
         }
 
         .colon {
-            color: var(--primary-500);
+            color: var(--info-color);
             font-weight: 400;
-            animation: colonPulse 2s ease-in-out infinite;
+            animation: colonBlink 2s ease-in-out infinite;
+            font-size: 0.6em;
+            margin: 0 0.1em;
         }
 
-        @keyframes colonPulse {
-            0%, 50% { opacity: 1; transform: scale(1); }
-            51%, 100% { opacity: 0.6; transform: scale(0.9); }
+        @keyframes colonBlink {
+            0%, 50% { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+            51%, 100% { 
+                opacity: 0.4; 
+                transform: scale(0.8);
+            }
         }
 
         .period {
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(28px, 4vw, 48px);
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-left: var(--space-sm);
+            font-size: 4vw;
+            font-weight: 400;
+            color: var(--info-color);
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+            margin-left: 2vw;
             align-self: flex-start;
             margin-top: 0.2em;
+            opacity: 0.8;
         }
 
         .date-display {
-            font-family: 'Inter', sans-serif;
-            font-size: 20px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            line-height: 1.4;
-            margin-bottom: var(--space-lg);
+            font-size: 2.5vw;
+            font-weight: 300;
+            color: var(--info-color);
+            line-height: 1.5;
+            letter-spacing: 0.08em;
+            opacity: 0.9;
+            margin-top: 1vw;
         }
 
-        .timezone-info {
+        .timezone-label {
+            font-size: 1.2vw;
+            color: var(--info-color);
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            opacity: 0.7;
+            margin-top: 2vw;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: var(--space-xs);
-            font-size: 14px;
-            color: var(--text-secondary);
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            gap: 0.5vw;
         }
 
         .timezone-icon {
-            width: 16px;
-            height: 16px;
-            fill: var(--primary-500);
+            width: 1.2vw;
+            height: 1.2vw;
+            fill: var(--info-color);
+            opacity: 0.8;
         }
 
-        .controls {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-lg);
-            margin-top: var(--space-xxl);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .timezone-button {
-            background: var(--primary-100);
-            border: none;
-            border-radius: var(--radius-md);
-            padding: var(--space-md);
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--primary-700);
-            cursor: pointer;
-            transition: all 0.25s ease-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-sm);
-            letter-spacing: 0.01em;
-        }
-
-        .timezone-button:hover {
-            background: var(--primary-500);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .timezone-button:active {
-            transform: scale(0.98);
-        }
-
-        .timezone-button svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .settings-section {
-            background: var(--surface);
-            border-radius: var(--radius-md);
-            padding: var(--space-md);
-            border: 1px solid var(--border);
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-sm);
-        }
-
-        .setting-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .setting-label {
-            font-size: 16px;
-            color: var(--text-secondary);
-            font-weight: 400;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 48px;
-            height: 28px;
-            background: var(--border);
-            border-radius: 14px;
-            cursor: pointer;
-            transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .toggle-switch.active {
-            background: var(--primary-500);
-        }
-
-        .toggle-thumb {
+        /* Surface reflections */
+        .water-drop-clock::before {
+            content: '';
             position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(255, 255, 255, 0.1) 50%, 
+                transparent 70%);
+            border-radius: inherit;
+            z-index: -1;
+            animation: shimmer 3s linear infinite;
         }
 
-        .toggle-switch.active .toggle-thumb {
-            transform: translateX(20px);
-        }
-
-        .status-bar {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-sm);
-            margin-top: var(--space-lg);
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: statusPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes statusPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) skew(-15deg);
+            }
+            100% {
+                transform: translateX(100%) skew(-15deg);
+            }
         }
 
         /* Mobile Responsive */
-        @media (max-width: 640px) {
-            body {
-                padding: var(--space-xs);
+        @media (max-width: 768px) {
+            .container {
+                width: 90vw;
+                height: 50vw;
+                padding: 6vw 8vw;
             }
             
-            .clock-card {
-                padding: var(--space-md);
+            .water-drop-clock {
+                backdrop-filter: blur(20px);
             }
             
             .time-display {
-                font-size: 80px;
+                font-size: 20vw;
             }
             
             .period {
-                font-size: 28px;
+                font-size: 5vw;
             }
             
             .date-display {
-                font-size: 18px;
+                font-size: 3.5vw;
+            }
+            
+            .timezone-label {
+                font-size: 2vw;
             }
         }
 
         /* Reduced motion preference */
         @media (prefers-reduced-motion: reduce) {
+            .water-drop-clock {
+                animation: none;
+            }
+            
+            .time-digit {
+                transition: none;
+            }
+            
+            .bubble {
+                display: none;
+            }
+            
             * {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
@@ -323,24 +329,35 @@
             }
         }
 
-        /* Loading animation */
-        .fade-in {
+        /* Loading state */
+        .loading {
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s ease-out forwards;
+            transform: scale(0.8);
+            animation: dropAppear 1s ease-out forwards;
         }
 
-        @keyframes fadeInUp {
-            to {
+        @keyframes dropAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotate(-5deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05) rotate(2deg);
+            }
+            100% {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1) rotate(0deg);
             }
         }
     </style>
 </head>
 <body>
+    <!-- Floating particles (bubbles) -->
+    <div class="particles-container" id="particlesContainer"></div>
+    
     <div class="container">
-        <div class="clock-card fade-in" id="clockCard">
+        <div class="water-drop-clock loading" id="waterDropClock">
             <div class="time-display">
                 <div class="time-container">
                     <span class="time-digit" id="hours">00</span>
@@ -356,56 +373,25 @@
                 Loading...
             </div>
             
-            <div class="timezone-info">
+            <div class="timezone-label">
                 <svg class="timezone-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-                <span>Indian Standard Time (UTC+5:30)</span>
-            </div>
-        </div>
-
-        <div class="controls fade-in">
-            <button class="timezone-button" id="timezoneBtn">
-                <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
                 </svg>
-                Change Timezone
-            </button>
-
-            <div class="settings-section fade-in">
-                <div class="setting-item">
-                    <span class="setting-label">Show 24-Hour Format</span>
-                    <div class="toggle-switch" id="formatToggle">
-                        <div class="toggle-thumb"></div>
-                    </div>
-                </div>
-                <div class="setting-item">
-                    <span class="setting-label">Show Seconds</span>
-                    <div class="toggle-switch active" id="secondsToggle">
-                        <div class="toggle-thumb"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="status-bar">
-                <div class="status-dot"></div>
-                <span>Live • Updating every second</span>
+                <span>Indian Standard Time (UTC+5:30)</span>
             </div>
         </div>
     </div>
 
     <script>
-        class ModernISTClock {
+        class WaterDropClock {
             constructor() {
                 this.hoursElement = document.getElementById('hours');
                 this.minutesElement = document.getElementById('minutes');
                 this.secondsElement = document.getElementById('seconds');
                 this.periodElement = document.getElementById('period');
                 this.dateElement = document.getElementById('dateDisplay');
-                this.clockCard = document.getElementById('clockCard');
-                this.formatToggle = document.getElementById('formatToggle');
-                this.secondsToggle = document.getElementById('secondsToggle');
-                this.timezoneBtn = document.getElementById('timezoneBtn');
+                this.waterDropClock = document.getElementById('waterDropClock');
+                this.particlesContainer = document.getElementById('particlesContainer');
                 
                 this.is24Hour = false;
                 this.showSeconds = true;
@@ -415,24 +401,86 @@
             }
 
             init() {
-                // Add staggered animation
-                setTimeout(() => {
-                    document.querySelector('.clock-card').style.animationDelay = '0s';
-                    document.querySelector('.controls').style.animationDelay = '0.2s';
-                }, 100);
-
-                // Event listeners
-                this.formatToggle.addEventListener('click', () => this.toggle24Hour());
-                this.secondsToggle.addEventListener('click', () => this.toggleSeconds());
-                this.timezoneBtn.addEventListener('click', () => this.showTimezoneInfo());
-
-                // Initial update
+                // Initialize bubble particles
+                this.createBubbles();
+                
+                // Add event listeners
+                this.waterDropClock.addEventListener('click', (e) => this.createRipple(e));
+                this.waterDropClock.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+                this.waterDropClock.addEventListener('mouseleave', () => this.resetTilt());
+                
+                // Initial clock update
                 this.updateClock();
                 
-                // Start interval
-                this.intervalId = setInterval(() => {
+                // Start intervals
+                this.clockIntervalId = setInterval(() => {
                     this.updateClock();
                 }, 1000);
+                
+                // Remove loading state
+                setTimeout(() => {
+                    this.waterDropClock.classList.remove('loading');
+                }, 500);
+            }
+
+            createBubbles() {
+                const bubbleCount = window.innerWidth < 768 ? 10 : 20;
+                
+                for (let i = 0; i < bubbleCount; i++) {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    
+                    // Random properties for each bubble
+                    const size = Math.random() * 6 + 2;
+                    const leftPosition = Math.random() * 100;
+                    const animationDuration = Math.random() * 15 + 15;
+                    const delay = Math.random() * 5;
+                    
+                    bubble.style.width = `${size}px`;
+                    bubble.style.height = `${size}px`;
+                    bubble.style.left = `${leftPosition}%`;
+                    bubble.style.animationDuration = `${animationDuration}s`;
+                    bubble.style.animationDelay = `${delay}s`;
+                    bubble.style.opacity = Math.random() * 0.5 + 0.3;
+                    
+                    this.particlesContainer.appendChild(bubble);
+                }
+            }
+
+            createRipple(event) {
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                
+                const rect = this.waterDropClock.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                
+                ripple.style.left = `${x - 150}px`;
+                ripple.style.top = `${y - 150}px`;
+                
+                this.waterDropClock.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 800);
+            }
+
+            handleMouseMove(event) {
+                const rect = this.waterDropClock.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                const mouseX = event.clientX - centerX;
+                const mouseY = event.clientY - centerY;
+                
+                const rotateX = (mouseY / rect.height) * 10;
+                const rotateY = (mouseX / rect.width) * -10;
+                
+                this.waterDropClock.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            }
+
+            resetTilt() {
+                this.waterDropClock.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
             }
 
             updateClock() {
@@ -471,7 +519,7 @@
                 if (timeParts) {
                     let [, hours, minutes, seconds, period] = timeParts;
                     
-                    // Animate changing digits
+                    // Animate changing digits with flip effect
                     this.animateDigit(this.hoursElement, hours);
                     this.animateDigit(this.minutesElement, minutes);
                     
@@ -486,7 +534,10 @@
                     if (!this.is24Hour && period) {
                         if (this.periodElement.textContent !== period) {
                             this.periodElement.textContent = period;
-                            this.periodElement.style.animation = 'digitBounce 0.6s ease-in-out';
+                            this.periodElement.style.opacity = '0.3';
+                            setTimeout(() => {
+                                this.periodElement.style.opacity = '0.8';
+                            }, 150);
                         }
                         this.periodElement.style.display = 'inline';
                     } else {
@@ -501,36 +552,22 @@
             animateDigit(element, newValue) {
                 if (element.textContent !== newValue) {
                     element.textContent = newValue;
-                    element.classList.remove('tick');
+                    element.classList.remove('flip');
                     element.offsetHeight; // Trigger reflow
-                    element.classList.add('tick');
+                    element.classList.add('flip');
                 }
             }
 
-            toggle24Hour() {
-                this.is24Hour = !this.is24Hour;
-                this.formatToggle.classList.toggle('active', this.is24Hour);
-            }
-
-            toggleSeconds() {
-                this.showSeconds = !this.showSeconds;
-                this.secondsToggle.classList.toggle('active', this.showSeconds);
-            }
-
-            showTimezoneInfo() {
-                alert('Currently showing Indian Standard Time (IST)\nUTC+5:30\n\nThe clock automatically syncs with your device time and converts it to IST.');
-            }
-
             destroy() {
-                if (this.intervalId) {
-                    clearInterval(this.intervalId);
+                if (this.clockIntervalId) {
+                    clearInterval(this.clockIntervalId);
                 }
             }
         }
 
-        // Initialize clock when page loads
+        // Initialize water drop clock when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            const clock = new ModernISTClock();
+            const clock = new WaterDropClock();
             
             // Cleanup
             window.addEventListener('beforeunload', () => {
@@ -538,13 +575,24 @@
             });
         });
 
-        // Page visibility handling
+        // Handle page visibility changes
         document.addEventListener('visibilitychange', () => {
+            const bubbles = document.querySelectorAll('.bubble');
             if (document.hidden) {
-                document.body.style.animationPlayState = 'paused';
+                bubbles.forEach(bubble => {
+                    bubble.style.animationPlayState = 'paused';
+                });
             } else {
-                document.body.style.animationPlayState = 'running';
+                bubbles.forEach(bubble => {
+                    bubble.style.animationPlayState = 'running';
+                });
             }
+        });
+
+        // Add water drop entrance effect
+        window.addEventListener('load', () => {
+            const drop = document.getElementById('waterDropClock');
+            drop.style.animation = 'dropAppear 1s ease-out';
         });
     </script>
 </body>
